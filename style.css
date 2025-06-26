@@ -46,8 +46,8 @@ section { padding: 100px 0; }
     padding: 100px 0; text-align: center; 
     background: linear-gradient(135deg, var(--yellow-hero-start), var(--yellow-hero-end)); 
 }
-.hero h1 { font-size: clamp(2.8rem, 6vw, 4rem); margin-bottom: 24px; color: var(--text-dark); }
-.hero .subtitle { font-size: 1.25rem; color: #4b5563; max-width: 650px; margin: 0 auto 40px auto; }
+.hero h1 { font-size: clamp(2.2rem, 8vw, 4rem); margin-bottom: 24px; color: var(--text-dark); }
+.hero .subtitle { font-size: 1.1rem; color: #4b5563; max-width: 650px; margin: 0 auto 40px auto; }
 .cta-button {
     display: inline-block; background-color: var(--green); color: var(--text-light);
     padding: 18px 40px; border-radius: var(--radius-md); text-decoration: none;
@@ -78,52 +78,32 @@ section { padding: 100px 0; }
 .case-study:last-child { margin-bottom: 0; }
 .case-study.reverse { flex-direction: row-reverse; }
 
-/* ĐÃ CẬP NHẬT: Tỷ lệ layout cho video */
-.case-study-visuals { flex: 1.8; } /* Cho phần hình ảnh rộng hơn */
-.case-study-info { flex: 1; text-align: left;min-width: 480px; }
+.case-study-visuals { flex: 1.5; } 
+.case-study-info { flex: 1.2; text-align: left; min-width: 420px; }
 
 .case-study-info h3 { font-size: 1.8rem; margin-bottom: 8px; }
 .platform-tag { display: inline-block; background-color: var(--blue); color: white; padding: 6px 16px; border-radius: 100px; font-weight: 700; font-size: 0.8rem; margin-bottom: 24px; }
-.key-results { list-style: none; padding-left: 0; margin-top: 0; }
-.key-results li { padding-left: 35px; position: relative; margin-bottom: 16px; font-weight: 700; font-size: 1.25rem; }
-.key-results li::before { content: '🚀'; position: absolute; left: 0; top: 2px; font-size: 1.4rem; }
-.key-results strong { font-weight: 900; }
 
-/* ĐÃ CẬP NHẬT: Kích thước mockup điện thoại tối ưu hơn */
+/* CSS MỚI CHO THẺ THÀNH TÍCH */
+.key-results { list-style: none; padding-left: 0; margin-top: 0; display: grid; gap: 16px; }
+.key-results li {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: var(--transition-smooth);
+}
+.key-results li:hover { transform: scale(1.03); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.result-value { font-size: 1.25rem; font-weight: 900; }
+.result-label { font-size: 1rem; color: #6b7280; }
+
 .phone-mockup { background: #111; border: 12px solid #111; border-radius: 40px; width: 340px; height: 595px; margin: 0 auto; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2); transition: var(--transition-smooth); overflow: hidden; position: relative;}
 .phone-mockup:hover { transform: translateY(-10px) rotate(-2deg); }
 
-/* ĐÃ CẬP NHẬT: CSS cho video nhúng */
-.video-wrapper-longform {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* Tỷ lệ 16:9 */
-    height: 0;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2);
-    transition: var(--transition-smooth);
-}
-.video-wrapper-longform:hover {
-    transform: translateY(-10px) scale(1.02);
-}
-.video-wrapper-longform .video-embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-.phone-mockup .tiktok-embed {
-    max-width: 100% !important; 
-    min-width: 100% !important;
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 28px;
-    overflow: hidden;
-    margin: 0 !important;
-}
+.video-wrapper-longform { position: relative; width: 100%; padding-top: 56.25%; height: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2); transition: var(--transition-smooth); }
+.video-wrapper-longform:hover { transform: translateY(-10px) scale(1.02); }
+.video-wrapper-longform .video-embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.phone-mockup .tiktok-embed { max-width: 100% !important; min-width: 100% !important; width: 100% !important; height: 100% !important; border-radius: 28px; overflow: hidden; margin: 0 !important; }
 
 /* === 4. TESTIMONIALS SECTION === */
 .testimonial-grid { display: grid; grid-template-columns: 1fr; gap: 32px; max-width: 700px; margin: 0 auto; }
@@ -137,8 +117,8 @@ section { padding: 100px 0; }
 
 /* === 5. FINAL CTA === */
 .final-cta { background-color: var(--blue); text-align: center; color: var(--text-light); }
-.final-cta h2 { font-size: 2.8rem; margin-bottom: 16px; }
-.final-cta .subtitle { max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; }
+.final-cta h2 { font-size: clamp(1.8rem, 6vw, 2.8rem); margin-bottom: 16px; }
+.final-cta .subtitle { max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; text-wrap: balance; }
 .contact-buttons-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
 .contact-buttons-grid .cta-button { flex: 1 1 200px; margin: 0; padding: 16px 24px; font-size: 1rem; text-align: center; }
 .cta-button.facebook { background-color: var(--green); border-bottom-color: var(--green-shadow); }
@@ -148,8 +128,20 @@ section { padding: 100px 0; }
 /* === FOOTER === */
 footer { padding: 40px 0; text-align: center; color: #6b7280; font-size: 0.9rem; }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .case-study, .case-study.reverse { flex-direction: column; }
-    .case-study-visuals { margin-bottom: 40px; width: 100%; }
-}   
+/* ======================================= */
+/* === PHẦN TỐI ƯU CHO DI ĐỘNG (MOBILE) === */
+/* ======================================= */
+@media (max-width: 900px) { 
+    section { padding: 80px 0; }
+    .section-title { white-space: normal; }
+    .case-study, .case-study.reverse { flex-direction: column; gap: 40px; }
+    .case-study-visuals { width: 100%; max-width: 340px; margin: 0 auto; }
+    .case-study-info { min-width: unset; text-align: center; }
+    .platform-tag { margin-left: auto; margin-right: auto; }
+    .key-results {
+        grid-template-columns: 1fr 1fr; /* 2 cột trên di động */
+        text-align: left;
+    }
+    .contact-buttons-grid { flex-direction: column; }
+    .contact-buttons-grid .cta-button { flex-basis: auto; } /* Bỏ flex-basis */
+}
