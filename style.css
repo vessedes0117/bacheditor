@@ -72,13 +72,16 @@ section { padding: 100px 0; }
 .sub-stat-number { font-size: 2.5rem; font-weight: 900; color: var(--blue); margin:0; }
 .sub-stat-label { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px; color: #6b7280; margin:0; }
 
-/* === 3. PORTFOLIO / CASE STUDY === */
+/* === 3. PORTFOLIO / CASE STUDY (ĐÃ CẬP NHẬT) === */
 .portfolio { background-color: var(--bg-grey); }
 .case-study { display: flex; gap: 60px; align-items: center; margin-bottom: 100px; }
 .case-study:last-child { margin-bottom: 0; }
 .case-study.reverse { flex-direction: row-reverse; }
-.case-study-info { flex: 1.2; text-align: left; }
-.case-study-visuals { flex: 1; }
+
+/* ĐÃ CẬP NHẬT: Tỷ lệ layout cho video */
+.case-study-visuals { flex: 1.8; } /* Cho phần hình ảnh rộng hơn */
+.case-study-info { flex: 1; text-align: left;min-width: 480px; }
+
 .case-study-info h3 { font-size: 1.8rem; margin-bottom: 8px; }
 .platform-tag { display: inline-block; background-color: var(--blue); color: white; padding: 6px 16px; border-radius: 100px; font-weight: 700; font-size: 0.8rem; margin-bottom: 24px; }
 .key-results { list-style: none; padding-left: 0; margin-top: 0; }
@@ -86,27 +89,56 @@ section { padding: 100px 0; }
 .key-results li::before { content: '🚀'; position: absolute; left: 0; top: 2px; font-size: 1.4rem; }
 .key-results strong { font-weight: 900; }
 
-.phone-mockup { background: #111; border: 12px solid #111; border-radius: 40px; width: 300px; height: 610px; margin: 0 auto; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2); transition: var(--transition-smooth); }
+/* ĐÃ CẬP NHẬT: Kích thước mockup điện thoại tối ưu hơn */
+.phone-mockup { background: #111; border: 12px solid #111; border-radius: 40px; width: 340px; height: 595px; margin: 0 auto; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2); transition: var(--transition-smooth); overflow: hidden; position: relative;}
 .phone-mockup:hover { transform: translateY(-10px) rotate(-2deg); }
-.phone-screen { background-color: #333; width: 100%; height: 100%; border-radius: 28px; display: flex; align-items: center; justify-content: center; color: #ddd; font-weight: 700; }
 
-.longform-thumbnail { width: 100%; height: 280px; background-color: #333; border-radius: var(--radius-lg); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; color: #ddd; font-weight: 700; transition: var(--transition-smooth); }
-.longform-thumbnail:hover { transform: translateY(-10px) scale(1.03); }
+/* ĐÃ CẬP NHẬT: CSS cho video nhúng */
+.video-wrapper-longform {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Tỷ lệ 16:9 */
+    height: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2);
+    transition: var(--transition-smooth);
+}
+.video-wrapper-longform:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+.video-wrapper-longform .video-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.phone-mockup .tiktok-embed {
+    max-width: 100% !important; 
+    min-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 28px;
+    overflow: hidden;
+    margin: 0 !important;
+}
 
 /* === 4. TESTIMONIALS SECTION === */
 .testimonial-grid { display: grid; grid-template-columns: 1fr; gap: 32px; max-width: 700px; margin: 0 auto; }
 .testimonial-card { background-color: var(--blue-soft); padding: 32px; border-radius: var(--radius-lg); border: 2px solid #bceaff; text-align: center; }
 .testimonial-card .quote { font-size: 1.2rem; font-style: italic; margin-bottom: 24px; }
 .client-info { display: flex; align-items: center; justify-content: center; gap: 16px; }
-.client-info .avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; overflow: hidden;}
-.client-info .avatar img { width: 100%; height: 100%; object-fit: cover;}
+.client-info .avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; overflow: hidden; }
+.client-info .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .client-info .name { font-weight: 900; }
 .client-info .detail { color: #555; }
 
 /* === 5. FINAL CTA === */
 .final-cta { background-color: var(--blue); text-align: center; color: var(--text-light); }
 .final-cta h2 { font-size: 2.8rem; margin-bottom: 16px; }
-.final-cta .subtitle { max-width: 600px; margin: 0 auto 40px auto; opacity: 0.9; }
+.final-cta .subtitle { max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; }
 .contact-buttons-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
 .contact-buttons-grid .cta-button { flex: 1 1 200px; margin: 0; padding: 16px 24px; font-size: 1rem; text-align: center; }
 .cta-button.facebook { background-color: var(--green); border-bottom-color: var(--green-shadow); }
@@ -120,4 +152,4 @@ footer { padding: 40px 0; text-align: center; color: #6b7280; font-size: 0.9rem;
 @media (max-width: 768px) {
     .case-study, .case-study.reverse { flex-direction: column; }
     .case-study-visuals { margin-bottom: 40px; width: 100%; }
-}
+}   
