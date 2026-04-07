@@ -1,22 +1,23 @@
+# audio_input.py
 import soundfile as sf
 import sounddevice as sd
 import numpy as np
 
 def load_audio_file(file_path):
-    # Đọc file âm thanh (hỗ trợ wav, flac...)
+    """Đọc file âm thanh, tự động chuyển stereo → mono."""
     data, samplerate = sf.read(file_path)
-    
-    # Nếu âm thanh là stereo (2 kênh), chuyển về mono (1 kênh) để dễ xử lý
     if len(data.shape) > 1:
         data = np.mean(data, axis=1)
-        
     return data, samplerate
 
-def record_audio(duration=5, samplerate=44100):
-    # Ghi âm từ microphone mặc định của máy (mặc định ghi 5 giây)
-    print("Đang ghi âm...")
-    recording = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='float32')
-    sd.wait() # Đợi cho đến khi ghi âm xong
-    print("Ghi âm hoàn tất!")
-    
-    return recording.flatten(), samplerate
+def record_audio_stream(samplerate=44100):
+    """
+    Ghi âm theo kiểu stream (không giới hạn thời gian).
+    Trả về InputStream — caller tự quản lý start/stop.
+    Dữ liệu được đẩy vào callback mỗi khi có buffer mới.
+    """
+    return sd.InputStream(
+        samplerate=samplerate,
+        channels=1,
+        dtype='float32'
+    )
