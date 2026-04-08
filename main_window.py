@@ -107,7 +107,6 @@ class MainWindow(QMainWindow):
         val_lbl.setStyleSheet("color: #3B82F6; font-size: 11px; min-width: 40px;")
         slider.valueChanged.connect(lambda v: val_lbl.setText(f"{v}{unit}"))
 
-        # Lưu slider và label vào self để truy cập sau
         setattr(self, attr_name, slider)
         setattr(self, val_attr,  val_lbl)
 
@@ -179,46 +178,29 @@ class MainWindow(QMainWindow):
         line2.setStyleSheet("background-color: #334155; border: none; max-height: 1px;")
         left_layout.addWidget(line2)
 
+        # ── CẬP NHẬT: Tùy chọn xử lý GỌN GÀNG ───────────────────────────
         lbl_options = QLabel("TÙY CHỌN XỬ LÝ")
         lbl_options.setStyleSheet("color: #94A3B8; font-size: 12px; font-weight: bold;")
         left_layout.addWidget(lbl_options)
 
-        # ── Khử ồn ──
+        # Khử tiếng ồn — 1 slider
         self.chk_noise = QCheckBox("Khử Tiếng Ồn Nền")
         self.chk_noise.setChecked(True)
         left_layout.addWidget(self.chk_noise)
-
-        algo_layout = QHBoxLayout()
-        lbl_algo = QLabel("Thuật toán:")
-        lbl_algo.setStyleSheet("color: #94A3B8; font-size: 12px;")
-        self.combo_noise_method = QComboBox()
-        self.combo_noise_method.addItems(["Wiener Filter", "Spectral Subtraction"])
-        self.combo_noise_method.setStyleSheet("""
-            QComboBox { background-color: #334155; color: #F8FAFC; border: none;
-                        border-radius: 6px; padding: 4px 8px; font-size: 12px; }
-            QComboBox::drop-down { border: none; }
-            QComboBox QAbstractItemView { background-color: #1E293B; color: #F8FAFC;
-                                          selection-background-color: #3B82F6; }
-        """)
-        algo_layout.addWidget(lbl_algo)
-        algo_layout.addWidget(self.combo_noise_method)
-        left_layout.addLayout(algo_layout)
-
         left_layout.addLayout(self._make_slider(
-            label="Cường độ lọc:", tooltip="Mức độ giảm nhiễu nền",
-            attr_name='slider_noise', val_attr='lbl_noise_val',
+            label='Mức độ lọc:', tooltip='Càng cao càng lọc mạnh',
+            attr_name='slider_noise', val_attr='lbl_noise_value',
             min_val=0, max_val=100, default=50, unit='%'
         ))
 
-        # ── Cắt im lặng ──
+        # Cắt im lặng — 1 slider
         self.chk_silence = QCheckBox("Cắt Khoảng Im Lặng")
         self.chk_silence.setChecked(True)
         left_layout.addWidget(self.chk_silence)
-
         left_layout.addLayout(self._make_slider(
             label='Ngưỡng im lặng:', tooltip='Càng cao càng cắt nhiều',
             attr_name='slider_top_db', val_attr='lbl_top_db_val',
-            min_val=10, max_val=60, default=30, unit='dB'
+            min_val=10, max_val=60, default=35, unit='dB'
         ))
 
         self.btn_preview_silence = QPushButton("🔍 Xem Trước Kết Quả Cắt")
@@ -235,46 +217,18 @@ class MainWindow(QMainWindow):
         self.lbl_silence_preview.setWordWrap(True)
         left_layout.addWidget(self.lbl_silence_preview)
 
-        # ── CẬP NHẬT: Tăng cường giọng nói ──────────────────────────────────
+        # Tăng cường giọng nói — 1 slider "Độ rõ giọng"
         self.chk_voice = QCheckBox("Tăng Cường Giọng Nói")
         self.chk_voice.setChecked(True)
         left_layout.addWidget(self.chk_voice)
-
-        lbl_eq = QLabel("EQ Giọng Nói:")
-        lbl_eq.setStyleSheet("color: #94A3B8; font-size: 11px; font-weight: bold;")
-        left_layout.addWidget(lbl_eq)
-
         left_layout.addLayout(self._make_slider(
-            label='Bass (80–300Hz):',
-            tooltip='Âm trầm — tăng để giọng ấm hơn',
-            attr_name='slider_bass', val_attr='lbl_bass_val',
-            min_val=0, max_val=200, default=100, unit='%'
-        ))
-        left_layout.addLayout(self._make_slider(
-            label='Mid (300Hz–3kHz):',
-            tooltip='Dải giọng nói cốt lõi — giữ ở 100% là tốt nhất',
-            attr_name='slider_mid', val_attr='lbl_mid_val',
-            min_val=0, max_val=200, default=100, unit='%'
-        ))
-        left_layout.addLayout(self._make_slider(
-            label='Treble (3–8kHz):',
-            tooltip='Âm sáng — tăng để giọng sắc nét hơn',
-            attr_name='slider_treble', val_attr='lbl_treble_val',
+            label='Độ rõ giọng:', tooltip='Tăng để giọng sắc nét, rõ hơn',
+            attr_name='slider_clarity', val_attr='lbl_clarity_val',
             min_val=0, max_val=200, default=100, unit='%'
         ))
 
-        self.chk_presence = QCheckBox("Presence Boost (+4dB tại 3.5kHz)")
-        self.chk_presence.setChecked(True)
-        self.chk_presence.setStyleSheet("color: #94A3B8; font-size: 12px; spacing: 8px;")
-        left_layout.addWidget(self.chk_presence)
-
-        self.chk_deessing = QCheckBox("De-essing (giảm âm 's' chói)")
-        self.chk_deessing.setChecked(True)
-        self.chk_deessing.setStyleSheet("color: #94A3B8; font-size: 12px; spacing: 8px;")
-        left_layout.addWidget(self.chk_deessing)
-        # ----------------------------------------------------------------------
-
-        self.chk_agc     = QCheckBox("Cân Bằng Âm Lượng (AGC)")
+        # AGC
+        self.chk_agc = QCheckBox("Cân Bằng Âm Lượng (AGC)")
         self.chk_agc.setChecked(True)
         left_layout.addWidget(self.chk_agc)
         
@@ -411,43 +365,57 @@ class MainWindow(QMainWindow):
         self.btn_record.setText("🔴 Ghi Âm Trực Tiếp")
         self.btn_record.setStyleSheet(self.btn_record_style)
 
+    # --- CẬP NHẬT: LOGIC XỬ LÝ MỚI ─────────────────────────────
     def process_audio(self):
-        if self.audio_data is None: return
+        if self.audio_data is None:
+            QMessageBox.warning(self, "Cảnh báo", "Vui lòng nhập file hoặc ghi âm trước!")
+            return
         try:
             self.btn_process.setText("ĐANG XỬ LÝ...")
+            self.btn_process.setStyleSheet(
+                "background-color: #2563EB; color: white; padding: 16px; font-size: 15px;")
             QApplication.processEvents()
-            current = self.audio_data.copy()
-            
-            if self.chk_noise.isChecked():
-                noise_level = self.slider_noise.value() / 100.0
-                method = 'wiener' if self.combo_noise_method.currentIndex() == 0 else 'spectral'
-                current = noise_suppression.reduce_noise(current, self.sample_rate, noise_level, method=method)
-            
-            if self.chk_silence.isChecked():
-                current = silence_removal.remove_silence(
-                    current, top_db=self.slider_top_db.value(), sample_rate=self.sample_rate
-                )
 
-            # --- CẬP NHẬT: Gọi hàm tăng cường giọng nói mới ---
+            current_audio = self.audio_data.copy()
+
+            if self.chk_noise.isChecked():
+                noise_level   = self.slider_noise.value() / 100.0
+                current_audio = noise_suppression.reduce_noise(
+                    current_audio, self.sample_rate,
+                    noise_level=noise_level, method='spectral')
+
+            if self.chk_silence.isChecked():
+                current_audio = silence_removal.remove_silence(
+                    current_audio,
+                    top_db      = self.slider_top_db.value(),
+                    sample_rate = self.sample_rate)
+
             if self.chk_voice.isChecked():
-                current = voice_enhancement.enhance_voice(
-                    current, self.sample_rate,
-                    bass_gain      = self.slider_bass.value()   / 100.0,
-                    mid_gain       = self.slider_mid.value()    / 100.0,
-                    treble_gain    = self.slider_treble.value() / 100.0,
-                    presence_boost = self.chk_presence.isChecked(),
-                    de_essing      = self.chk_deessing.isChecked()
-                )
+                clarity = self.slider_clarity.value() / 100.0
+                # Gộp clarity vào mid + treble gain, bass cố định 1.0
+                current_audio = voice_enhancement.enhance_voice(
+                    current_audio, self.sample_rate,
+                    bass_gain      = 1.0,
+                    mid_gain       = clarity,
+                    treble_gain    = min(clarity * 1.1, 2.0),
+                    presence_boost = clarity > 0.8,   # auto bật khi clarity cao
+                    de_essing      = True)
 
             if self.chk_agc.isChecked():
-                current = agc.apply_agc(current, self.sample_rate)
-                
-            self.processed_audio = current
-            self.visualizer.plot_comparison(self.audio_data, self.processed_audio, self.sample_rate)
+                current_audio = agc.apply_agc(
+                    current_audio, sample_rate=self.sample_rate)
+
+            self.processed_audio = current_audio
+            self.visualizer.plot_comparison(
+                self.audio_data, self.processed_audio, self.sample_rate)
+
             self.btn_process.setText("BẮT ĐẦU XỬ LÝ")
+            self.btn_process.setStyleSheet(self.style_btn_process)
+
         except Exception as e:
-            QMessageBox.critical(self, "Lỗi", str(e))
+            QMessageBox.critical(self, "Lỗi", f"Có lỗi khi xử lý: {str(e)}")
             self.btn_process.setText("BẮT ĐẦU XỬ LÝ")
+            self.btn_process.setStyleSheet(self.style_btn_process)
 
     def play_before(self):
         if self.audio_data is None: return
